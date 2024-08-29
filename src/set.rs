@@ -26,7 +26,7 @@ use std::marker::PhantomData;
     )),
     serde(into = "HashSet<T>", try_from = "HashSet<T>")
 )]
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ESet<T> {
     val: PhantomData<T>,
 }

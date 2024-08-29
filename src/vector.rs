@@ -26,7 +26,7 @@ use crate::Empty;
     )),
     serde(into = "Vec<T>", try_from = "Vec<T>")
 )]
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct EVec<T> {
     // Spooky. Don't look behind you.
     vector: PhantomData<T>,

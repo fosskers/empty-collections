@@ -27,7 +27,7 @@ use std::marker::PhantomData;
     )),
     serde(into = "HashMap<K, V>", try_from = "HashMap<K, V>")
 )]
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct EMap<K, V> {
     key: PhantomData<K>,
     val: PhantomData<V>,
