@@ -12,6 +12,7 @@
 use std::marker::PhantomData;
 
 /// A vector that is guaranteed to be empty.
+#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct EVec<T> {
     // Spooky. Don't look behind you.
     vector: PhantomData<T>,
@@ -51,5 +52,32 @@ impl<T> EVec<T> {
 impl<T> From<EVec<T>> for Vec<T> {
     fn from(_: EVec<T>) -> Self {
         Vec::new()
+    }
+}
+
+impl<T> std::fmt::Debug for EVec<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let v: [usize; 0] = [];
+        v.fmt(f)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn eq() {
+        let a: EVec<usize> = EVec::new();
+        let b = EVec::new();
+        assert_eq!(a, b);
+    }
+
+    #[test]
+    fn ord() {
+        let a: EVec<usize> = EVec::new();
+        let b = EVec::new();
+        assert!(!(a < b));
+        assert!(!(a > b));
     }
 }

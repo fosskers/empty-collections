@@ -1,6 +1,14 @@
 [package]
 name = "empty-collections"
+authors = ["Colin Woodbury <colin@fosskers.ca>"]
 version = "0.1.0"
 edition = "2021"
+description = "Correct-by-construction empty collections."
+license = "MPL"
+repository = "https://github.com/fosskers/empty-collections"
+readme = "README.md"
+keywords = ["empty", "vector", "set", "map"]
+categories = ["data-structures"]
 
 [dependencies]
+serde = { version = "1", optional = true }
