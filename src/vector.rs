@@ -9,9 +9,21 @@
 //!
 //! And many others have been elided for being pointless (like `drain` and `sort`).
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 use std::marker::PhantomData;
 
 /// A vector that is guaranteed to be empty.
+#[cfg_attr(
+    feature = "serde",
+    derive(Deserialize, Serialize),
+    serde(bound(
+        serialize = "T: Serialize + Clone",
+        deserialize = "T: Deserialize<'de>"
+    )),
+    serde(into = "Vec<T>", try_from = "Vec<T>")
+)]
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct EVec<T> {
     // Spooky. Don't look behind you.
@@ -62,6 +74,18 @@ impl<T> std::fmt::Debug for EVec<T> {
     }
 }
 
+impl<T> TryFrom<Vec<T>> for EVec<T> {
+    type Error = &'static str;
+
+    fn try_from(value: Vec<T>) -> Result<Self, Self::Error> {
+        if value.is_empty() {
+            Ok(EVec::new())
+        } else {
+            Err("Cannot convert a non-empty vector into an empty one")
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -79,5 +103,18 @@ mod tests {
         let b = EVec::new();
         assert!(!(a < b));
         assert!(!(a > b));
+    }
+
+    #[cfg(feature = "serde")]
+    mod serialize {
+        use crate::EVec;
+
+        #[test]
+        fn roundtrip() {
+            let v: EVec<usize> = EVec::new();
+            let j = serde_json::to_string(&v).unwrap();
+            let r = serde_json::from_str(&j).unwrap();
+            assert_eq!(v, r);
+        }
     }
 }
