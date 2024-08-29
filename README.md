@@ -15,12 +15,24 @@ Why, you ask? That is a good question.
 ```rust
 use empty_collections::*;
 
-// Unfortunately we have to specify a type.
 let v: EVec<usize> = EVec::new();
 assert!(v.is_empty());
 ```
 
-See the documentation for `EVec` for more examples of what it (can't) do.
+See the documentation for `EVec`, `EMap`, and `ESet` for more examples of their
+extensive APIs.
+
+## Iteration
+
+The iterators in this crate are the fastest in the entire Rust ecosystem,
+able to traverse their entire stream in constant time. Simply amazing.
+
+```rust
+use empty_collections::*;
+
+let v: EVec<i32> = EVec::new();
+assert_eq!(0, v.into_iter().sum());
+```
 
 ## Features
 

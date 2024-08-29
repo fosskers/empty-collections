@@ -15,8 +15,8 @@
 //! assert!(v.is_empty());
 //! ```
 //!
-//! See the documentation for [`EVec`] and [`EMap`] for more examples of their
-//! extensive APIs.
+//! See the documentation for [`EVec`], [`EMap`], and [`ESet`] for more examples
+//! of their extensive APIs.
 //!
 //! # Iteration
 //!
@@ -39,11 +39,13 @@
 #![warn(missing_docs)]
 
 mod map;
+mod set;
 mod vector;
 
 use std::marker::PhantomData;
 
 pub use map::EMap;
+pub use set::ESet;
 pub use vector::EVec;
 
 /// An empty [`Iterator`].
