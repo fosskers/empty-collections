@@ -48,6 +48,13 @@ impl<T> EVec<T> {
         true
     }
 
+    /// Wow, it's even an [`Iterator`]?
+    pub fn iter<'a>(&'a self) -> Iter<'a, T> {
+        Iter {
+            phantom: PhantomData,
+        }
+    }
+
     /// No, sorry, _this_ is the best function I've ever written.
     pub const fn len(&self) -> usize {
         0
@@ -83,6 +90,40 @@ impl<T> TryFrom<Vec<T>> for EVec<T> {
         } else {
             Err("Cannot convert a non-empty vector into an empty one")
         }
+    }
+}
+
+impl<T> IntoIterator for EVec<T> {
+    type Item = T;
+
+    type IntoIter = IntoIter<T>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        IntoIter { phantom: PhantomData }
+    }
+}
+
+pub struct IntoIter<T> {
+    phantom: PhantomData<T>,
+}
+
+impl<T> Iterator for IntoIter<T> {
+    type Item = T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        None
+    }
+}
+
+pub struct Iter<'a, T> {
+    phantom: PhantomData<&'a T>,
+}
+
+impl<'a, T> Iterator for Iter<'a, T> {
+    type Item = &'a T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        None
     }
 }
 
