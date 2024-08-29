@@ -1,13 +1,4 @@
 //! Empty vectors. An icy wind blows across the wintering fields of Manitoba.
-//!
-//! Naturally, the following operations are impossible with [`EVec`]:
-//!
-//! - `append`
-//! - `insert`
-//! - `push`
-//! - `remove`
-//!
-//! And many others have been elided for being pointless (like `drain` and `sort`).
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -15,6 +6,15 @@ use serde::{Deserialize, Serialize};
 use std::marker::PhantomData;
 
 /// A vector that is guaranteed to be empty.
+///
+/// Naturally, the following operations are impossible with [`EVec`]:
+///
+/// - `append`
+/// - `insert`
+/// - `push`
+/// - `remove`
+///
+/// And many others have been elided for being pointless (like `drain` and `sort`).
 #[cfg_attr(
     feature = "serde",
     derive(Deserialize, Serialize),
