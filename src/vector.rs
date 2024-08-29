@@ -5,6 +5,8 @@ use serde::{Deserialize, Serialize};
 
 use std::marker::PhantomData;
 
+use crate::Empty;
+
 /// A vector that is guaranteed to be empty.
 ///
 /// Naturally, the following operations are impossible with [`EVec`]:
@@ -49,10 +51,8 @@ impl<T> EVec<T> {
     }
 
     /// Wow, it's even an [`Iterator`]?
-    pub fn iter<'a>(&'a self) -> Iter<'a, T> {
-        Iter {
-            phantom: PhantomData,
-        }
+    pub fn iter(&self) -> Empty<&T> {
+        Empty::new()
     }
 
     /// No, sorry, _this_ is the best function I've ever written.
@@ -96,36 +96,13 @@ impl<T> TryFrom<Vec<T>> for EVec<T> {
 impl<T> IntoIterator for EVec<T> {
     type Item = T;
 
-    type IntoIter = IntoIter<T>;
+    type IntoIter = Empty<T>;
 
     fn into_iter(self) -> Self::IntoIter {
-        IntoIter { phantom: PhantomData }
+        Empty::new()
     }
 }
 
-pub struct IntoIter<T> {
-    phantom: PhantomData<T>,
-}
-
-impl<T> Iterator for IntoIter<T> {
-    type Item = T;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        None
-    }
-}
-
-pub struct Iter<'a, T> {
-    phantom: PhantomData<&'a T>,
-}
-
-impl<'a, T> Iterator for Iter<'a, T> {
-    type Item = &'a T;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        None
-    }
-}
 
 #[cfg(test)]
 mod tests {
